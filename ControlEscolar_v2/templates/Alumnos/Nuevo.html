@@ -8,73 +8,62 @@
 <div class="container">
     <center>
     <h2>Registrar Alumnos</h2>
+        <h4>Datos escolares</h4>
     </center>
     <br>
 
     <div class="well">
-        <form action="/alumnos/agregar" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form action="/Alumnos/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
 
             <!--Fila 1-->
             <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" class="form-control" name="nombre" required placeholder="Nombre del usuario">
-                </div>
-
                 <div class="col-md-3 mb-3">
-                    <label for="sexo">Sexo:</label>
-                    <select class="custom-select" name="sexo" required>
-                        <option selected disabled value="">Selecciona...</option>
-                        <option value="Hombre">Hombre</option>
-                        <option value="Mujer">Mujer</option>
+                    <label for="idUsuario"></label>
+                    <select class="custom-select" style="visibility:hidden" name="usuario" required >
+                        {% for u in usuarios %}
+                        <option selected value="{{u.idUsuario}}" >{{u.nombre }} </option>
+                        {%endfor%}
                     </select>
                 </div>
 
                 <div class="col-md-3 mb-3">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" class="form-control" name="telefono" required placeholder="Teléfono">
+                    <label for="idCarrera">Carrera:</label>
+                    <select class="custom-select" name="carrera" required>
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for c in carreras %}
+                        <option value="{{c.idCarrera}}">{{c.nombre}}</option>
+                        {%endfor%}
+                    </select>
                 </div>
 
+                <div class="col-md-3 mb-3">
+                    <label for="añoIngreso">Año de Ingreso</label>
+                    <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso" min="2000", max="2021">
+                </div>
 
             </div>
-
-            <!--Fila 2-->
-            <div class="form-row">
-                <div class="col-md-4 mb-3">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" required placeholder="Email">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" class="form-control" name="contraseña" required placeholder="Constraseña">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="carrera">Carrera</label>
-                    <select class="custom-select" name="Carrera" required>
-                        <option selected disabled value="">Selecciona...</option>
-                    </select>
-                </div>
-                <div class="col-md-2 mb-3">
-                    <label for="anioIngreso">Año de ingreso</label>
-                    <input type="password" class="form-control" name="anioIngreso" required placeholder="Año de ingreso">
-                </div>
-                </div>
-
-
 
             <br>
             <center>
             <button class="btn btn-success"  style="margin:20px" type="submit">Guardar</button>
-            <a href="/Alumnos/Consulta" class="btn btn-secondary" style="margin:20px">Regresar</a>
 
             </center>
 
 
         </form>
     </div>
+ {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
 
 
 </div>
 
 
 {% endblock%}
+
