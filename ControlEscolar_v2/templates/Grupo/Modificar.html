@@ -23,7 +23,7 @@
                 <div class="col-md-4 mb-3">
                     <label for="periodo">Periodo:</label>
                     <select class="custom-select" name="periodo" required>
-                        <option selected disabled value="{{grupos.idPeriodo}}">{{grupos.periodos.nombre}}</option>
+                        <option selected value="{{grupos.idPeriodo}}">{{grupos.periodos.nombre}}</option>
                         {% for p in periodo %}
                         <option value="{{p.idPeriodo}}">{{p.nombre}}</option>
                         {%endfor%}
@@ -33,7 +33,7 @@
                 <div class="col-md-4 mb-3">
                     <label for="carrera">Carrera:</label>
                     <select class="custom-select" name="carrera" required>
-                        <option selected disabledvalue="{{grupos.idCarrera}}">{{grupos.carreras.nombre}}</option>
+                        <option selected value="{{grupos.idCarrera}}">{{grupos.carreras.nombre}}</option>
                         {% for c in carreras %}
                         <option value="{{c.idCarrera}}">{{c.nombre}}</option>
                         {%endfor%}

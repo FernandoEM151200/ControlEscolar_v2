@@ -12,25 +12,25 @@
     <br>
 
     <div class="well">
-        <form action="/Alumnos/guardar" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form action="/Coordinador/guardar" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
 
             <!--Fila 1-->
             <div class="form-row">
                 <div class="col-md-2 mb-3">
                     <label for="nombre">ID:</label>
                     <input type="number" class="form-control" name="usuario" required placeholder="ID de Usuario"
-                        readonly value="{{alumnos.idUsuario}}">
+                        readonly value="{{coordinador.idCoordinador}}">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="nombre">Nombre:</label>
                     <input type="text" class="form-control" name="nombre" required placeholder="Nombre del usuario"
-                        value="{{alumnos.usuarios.nombre}}">
+                        value="{{coordinador.usuarios.nombre}}">
                 </div>
 
                 <div class="col-md-1 mb-3">
                     <label for="sexo">Sexo:</label>
                     <select class="custom-select" name="sexo" required>
-                        {% if alumnos.usuarios.sexo=='M' %}
+                        {% if coordinador.usuarios.sexo=='M' %}
 
                         <option value="H">Hombre</option>
                         <option selected value="M">Mujer</option>
@@ -45,7 +45,7 @@
                 <div class="col-md-3 mb-3">
                     <label for="telefono">Teléfono</label>
                     <input type="tel" class="form-control" name="telefono" required placeholder="Teléfono"
-                        value="{{alumnos.usuarios.telefono}}">
+                        value="{{coordinador.usuarios.telefono}}">
                 </div>
 
 
@@ -56,23 +56,24 @@
                 <div class="col-md-4 mb-3">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" required placeholder="Email" ,
-                        value="{{alumnos.usuarios.email}}" maxlength="100">
+                        value="{{coordinador.usuarios.email}}" maxlength="100">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="contraseña">Contraseña</label>
-                    <input type="password" class="form-control" name="contraseña" required placeholder="Constraseña"
-                        maxlength="20" value="{{alumnos.usuarios.contraseña}}">
+                    <input type="password" class="form-control" name="contraseña" required placeholder="Contraseña"
+                        maxlength="20" value="{{coordinador.usuarios.contraseña}}">
                 </div>
 
                 <div class="col-md-2 mb-3">
                     <label for="tipo">Tipo</label>
                     <input type="text" class="form-control" name="tipo" required placeholder="Tipo" maxlength="20"
-                        value="{{alumnos.usuarios.tipo}}">
+                        value="{{coordinador.usuarios.tipo}}" readonly>
                 </div>
 
                 <div class="col-md-3 mb-3">
-                    {% if alumnos.usuarios.estatus==True %}
+                    {% if coordinador.usuarios.estatus==True %}
                     <label>Estatus:</label>
+                    <br>
                     <input type="checkbox" name="estatus" checked value="True">
                     {% else %}
                     <label>Estatus:</label>
@@ -83,24 +84,30 @@
 
 
                 <div class="col-md-2 mb-3">
-                    <label for="noControl">Numero de Control</label>
-                    <input type="number" class="form-control" name="noControl" required placeholder="Numero de Control"
-                        readonly value="{{alumnos.noControl}}">
+                    <label for="idCoordinador">ID_Coordinador</label>
+                    <input type="number" class="form-control" name="idCoordinador" required placeholder="Numero de Control"
+                        readonly value="{{coordinador.idCoordinador}}">
                 </div>
 
                 <div class="col-md-3 mb-3">
                     <label for="carrera">Carrera</label>
                     <select class="custom-select" name="carrera" required>
-                        <option selected value="{{alumnos.idCarrera}}">{{alumnos.carreras.nombre}}</option>
+                        <option selected value="{{coordinador.idCarrera}}">{{coordinador.carreras.nombre}}</option>
                         {% for c in carreras %}
                         <option value="{{c.idCarrera}}">{{c.nombre}}</option>
                         {%endfor%}
                     </select>
                 </div>
                 <div class="col-md-2 mb-3">
-                    <label for="anioIngreso">Año de ingreso</label>
-                    <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso"
-                        min="2000" , max="2021" value="{{alumnos.anioIngreso}}">
+                    <label for="anioIngreso">Fecha de inicio</label>
+                    <input type="date" class="form-control" name="inicio" required placeholder="Fecha de inicio"
+                        readonly value="{{coordinador.fechaInicio}}">
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="anioIngreso">Fecha de inicio</label>
+                    <input type="date" class="form-control" name="fin" required placeholder="Fecha de inicio"
+                        readonly value="{{coordinador.fechaFin}}">
                 </div>
             </div>
 

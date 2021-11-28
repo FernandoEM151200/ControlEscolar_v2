@@ -7,30 +7,30 @@
 
 <div class="container">
     <center>
-        <h2>Modificar Alumnos</h2>
+        <h2>Modificar Docentes</h2>
     </center>
     <br>
 
     <div class="well">
-        <form action="/Alumnos/guardar" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form action="/Docentes/guardar" method="post" enctype="multipart/form-data" >
 
             <!--Fila 1-->
             <div class="form-row">
                 <div class="col-md-2 mb-3">
                     <label for="nombre">ID:</label>
                     <input type="number" class="form-control" name="usuario" required placeholder="ID de Usuario"
-                        readonly value="{{alumnos.idUsuario}}">
+                        readonly value="{{docentes.idUsuario}}">
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="nombre">Nombre:</label>
                     <input type="text" class="form-control" name="nombre" required placeholder="Nombre del usuario"
-                        value="{{alumnos.usuarios.nombre}}">
+                        value="{{docentes.usuarios.nombre}}">
                 </div>
 
                 <div class="col-md-1 mb-3">
                     <label for="sexo">Sexo:</label>
                     <select class="custom-select" name="sexo" required>
-                        {% if alumnos.usuarios.sexo=='M' %}
+                        {% if docentes.usuarios.sexo=='M' %}
 
                         <option value="H">Hombre</option>
                         <option selected value="M">Mujer</option>
@@ -45,7 +45,7 @@
                 <div class="col-md-3 mb-3">
                     <label for="telefono">Teléfono</label>
                     <input type="tel" class="form-control" name="telefono" required placeholder="Teléfono"
-                        value="{{alumnos.usuarios.telefono}}">
+                        value="{{docentes.usuarios.telefono}}">
                 </div>
 
 
@@ -56,23 +56,24 @@
                 <div class="col-md-4 mb-3">
                     <label for="email">Email</label>
                     <input type="email" class="form-control" name="email" required placeholder="Email" ,
-                        value="{{alumnos.usuarios.email}}" maxlength="100">
+                        value="{{docentes.usuarios.email}}" maxlength="100">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="contraseña">Contraseña</label>
                     <input type="password" class="form-control" name="contraseña" required placeholder="Constraseña"
-                        maxlength="20" value="{{alumnos.usuarios.contraseña}}">
+                        maxlength="20" value="{{docentes.usuarios.contraseña}}">
                 </div>
 
                 <div class="col-md-2 mb-3">
                     <label for="tipo">Tipo</label>
                     <input type="text" class="form-control" name="tipo" required placeholder="Tipo" maxlength="20"
-                        value="{{alumnos.usuarios.tipo}}">
+                        value="{{docentes.usuarios.tipo}}" readonly>
                 </div>
 
                 <div class="col-md-3 mb-3">
-                    {% if alumnos.usuarios.estatus==True %}
+                    {% if docentes.usuarios.estatus==True %}
                     <label>Estatus:</label>
+                    <br>
                     <input type="checkbox" name="estatus" checked value="True">
                     {% else %}
                     <label>Estatus:</label>
@@ -80,18 +81,18 @@
                     <input type="checkbox" name="estatus" value="True">
                     {% endif %}
                 </div>
-
-
+            </div>
+            <div class="form-row">
                 <div class="col-md-2 mb-3">
                     <label for="noControl">Numero de Control</label>
-                    <input type="number" class="form-control" name="noControl" required placeholder="Numero de Control"
-                        readonly value="{{alumnos.noControl}}">
+                    <input type="number" class="form-control" name="noDocente" required placeholder="Numero de Docente"
+                        readonly value="{{docentes.noDocente}}">
                 </div>
 
                 <div class="col-md-3 mb-3">
                     <label for="carrera">Carrera</label>
                     <select class="custom-select" name="carrera" required>
-                        <option selected value="{{alumnos.idCarrera}}">{{alumnos.carreras.nombre}}</option>
+                        <option selected value="{{docentes.idCarrera}}">{{docentes.carreras.nombre}}</option>
                         {% for c in carreras %}
                         <option value="{{c.idCarrera}}">{{c.nombre}}</option>
                         {%endfor%}
@@ -100,8 +101,47 @@
                 <div class="col-md-2 mb-3">
                     <label for="anioIngreso">Año de ingreso</label>
                     <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso"
-                        min="2000" , max="2021" value="{{alumnos.anioIngreso}}">
+                        min="2000" , max="2021" value="{{docentes.anioIngreso}}">
                 </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="escolaridad">Escolaridad:</label>
+                    <select class="custom-select" name="escolaridad" required>
+                        {% if docentes.escolaridad=='Licenciatura' %}
+                        <option selected value="Licenciatura">Licenciatura</option>
+                        <option value="Maestría">Maestria</option>
+                        <option value="Doctorado">Doctorado</option>
+                        {%endif %}
+                        {% if docentes.escolaridad=='Maestría' %}
+                        <option value="Licenciatura">Licenciatura</option>
+                        <option selected value="Maestría">Maestria</option>
+                        <option value="Doctorado">Doctorado</option>
+                        {%endif %}
+                        {% if docentes.escolaridad=='Doctorado' %}
+                        <option value="Licenciatura">Licenciatura</option>
+                        <option value="Maestría">Maestria</option>
+                        <option selected value="Doctorado">Doctorado</option>
+                        {%endif %}
+
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="especialidad">Especialidad</label>
+                    <input type="text" class="form-control" name="especialidad" required placeholder="Especialidad"
+                           value="{{docentes.especialidad}}">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="cedula">Cedula Profresional</label>
+                    <input type="text" class="form-control" name="cedula" required placeholder="Cédula Profesional"
+                           maxlength="10" value="{{docentes.cedula}}">
+                </div>
+
             </div>
 
 
@@ -109,7 +149,7 @@
             <br>
             <center>
                 <button class="btn btn-success" style="margin:20px" type="submit">Guardar</button>
-                <a href="/Alumnos/Consulta" class="btn btn-secondary" style="margin:20px">Regresar</a>
+                <a href="/Docente/Consulta" class="btn btn-secondary" style="margin:20px">Regresar</a>
 
             </center>
 
