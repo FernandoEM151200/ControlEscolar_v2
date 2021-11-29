@@ -1,17 +1,48 @@
 from flask import Flask, render_template, request, flash, redirect, abort, url_for
 from flask_bootstrap import Bootstrap
-from modelo.DAO import db, Carreras, Grupo,Periodo
+from modelo.DAO import db, Carreras, Grupo,Periodo,Usuario
+from flask_login import LoginManager, current_user,login_required,login_user,logout_user
 app=Flask(__name__)
 Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://userControlEscolar:Hola.123@localhost/ControlEscolar'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='cl4v3'
 
+#login yoo}
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view='login'
+@login_manager.user_loader
+def load_user(id):
+    return Usuario.query.get(int(id))
+#-----------------------------------------------------------------------------------------------------------------------------#
+#Sección para las rutas de login
+#-----------------------------------------------------------------------------------------------------------------------------#
+@app.route('/Comunes/login', methods=['post'])
+def validarUsuario():
+    user=Usuario()
+    mail=request.form['email']
+    contraseña = request.form['password']
+    user=user.validar(mail,contraseña)
+    if user!= None:
+        login_user(user)
+        return render_template('comunes/index.html')
+    else:
+        flash('Datos incorrectos')
+        return render_template('Comunes/login.html')
+
+
+
+@app.route('/')
+def login():
+    return render_template('Comunes/login.html')
+
 #-----------------------------------------------------------------------------------------------------------------------------#
 #Sección para las rutas de INDEX
 #-----------------------------------------------------------------------------------------------------------------------------#
 
 @app.route('/')
+@login_required
 def inicio():
     #return '<h1> Bienvenido a la tienda en línea SHOPITESZ </h1>'
     return render_template('comunes/index.html')
@@ -56,7 +87,9 @@ def carreras():
 
 
 @app.route('/carreras/nuevo')
+@login_required
 def nuevaCarrera():
+
     return render_template('Carreras/Nuevo.html')
 
 @app.route('/carreras/agregar', methods=['post'])
