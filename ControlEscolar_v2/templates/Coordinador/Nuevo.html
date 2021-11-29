@@ -7,17 +7,17 @@
 
 <div class="container">
     <center>
-    <h2>Registrar Alumnos</h2>
+    <h2>Registrar Coordinador</h2>
         <h4>Datos escolares</h4>
     </center>
     <br>
 
     <div class="well">
-        <form action="/Alumnos/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <form action="/Coordinador/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
 
             <!--Fila 1-->
             <div class="form-row">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-1 mb-1">
                     <label for="idUsuario"></label>
                     <select class="custom-select" style="visibility:hidden" name="usuario" required >
                         {% for u in usuarios %}
@@ -37,11 +37,16 @@
                 </div>
 
                 <div class="col-md-3 mb-3">
-                    <label for="añoIngreso">Año de Ingreso</label>
-                    <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso" min="2000", max="2021">
+                    <label for="fechaInicio">Fecha Inicio:</label>
+                    <input type="date" class="form-control" name="inicio" required placeholder="Fecha de Inicio">
                 </div>
 
+                 <div class="col-md-3 mb-3">
+                    <label for="fechaFin">Fecha Fin:</label>
+                    <input type="date" class="form-control" name="fin" required placeholder="Fecha de Inicio">
+                </div>
             </div>
+
 
             <br>
             <center>

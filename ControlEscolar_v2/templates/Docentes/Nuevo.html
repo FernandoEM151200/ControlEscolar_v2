@@ -7,17 +7,17 @@
 
 <div class="container">
     <center>
-    <h2>Registrar Alumnos</h2>
+    <h2>Registrar Docentes</h2>
         <h4>Datos escolares</h4>
     </center>
     <br>
 
     <div class="well">
-        <form action="/Alumnos/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <form action="/Docentes/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
 
             <!--Fila 1-->
             <div class="form-row">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-1 mb-1">
                     <label for="idUsuario"></label>
                     <select class="custom-select" style="visibility:hidden" name="usuario" required >
                         {% for u in usuarios %}
@@ -37,11 +37,36 @@
                 </div>
 
                 <div class="col-md-3 mb-3">
-                    <label for="añoIngreso">Año de Ingreso</label>
-                    <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso" min="2000", max="2021">
+                    <label for="añoIngreso">Año de Ingreso.</label>
+                    <input type="number" class="form-control" name="anioIngreso" required placeholder="Año de ingreso" min="1985", max="2021">
                 </div>
 
+                <div class="col-md-3 mb-3">
+                    <label for="escolaridad">Escolaridad:</label>
+                    <select class="custom-select" name="escolaridad" required>
+                        <option selected disabled value="">Selecciona...</option>
+                        <option value="Licenciatura">Licenciatura</option>
+                        <option value="Maestría">Maestria</option>
+                        <option value="Doctorado">Doctorado</option>
+
+
+                    </select>
+                </div>
             </div>
+            <div class="form-row">
+                <div class="col-md-5 mb-3">
+                    <label for="especialidad">Especialidad:</label>
+                    <input type="text" class="form-control" name="especialidad" required placeholder="Especialidad" maxlength="100">
+                </div>
+
+                <div class="col-md-5 mb-3">
+                    <label for="cedula">Cedula Profesional:</label>
+                    <input type="text" class="form-control" name="cedula" required placeholder="Cédula Profesional" maxlength="10">
+                </div>
+            </div>
+
+
+
 
             <br>
             <center>

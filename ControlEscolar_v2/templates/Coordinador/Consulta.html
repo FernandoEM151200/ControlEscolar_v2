@@ -2,13 +2,13 @@
 {% block content %}
 <div class="container">
     <center>
-        <h2>Consulta Alumnos</h2>
+        <h2>Consulta Coordinador</h2>
     </center>
     <br>
 
 
     <right>
-        <a href="/Alumnos/NuevoUsers" style="margin:20px" class="btn btn-success">Registrar</a>
+        <a href="/Coordinador/NuevoUsers" style="margin:20px" class="btn btn-success">Registrar</a>
     </right>
     <br>
     {% if get_flashed_messages() %}
@@ -23,25 +23,27 @@
         <thead>
             <tr>
                 <th>ID_Usuario</th>
-                <th>No Control</th>
+                <th>ID_Coordinador</th>
                 <th>Nombre</th>
                 <th>Carrera</th>
-                <th>Año Ingreso</th>
-                <th>Estatus</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <TH>Estatus</TH>
                 <th>Editar</th>
                 <th></th>
             </tr>
         </thead>
-        {% for aos in alumnos %}
+        {% for cor in coordinador %}
         <tr>
-            <td>{{aos.usuarios.idUsuario}}</td>
-            <td>{{aos.noControl}}</td>
-            <td>{{aos.usuarios.nombre}}</td>
-            <td>{{aos.carreras.nombre}}</td>
-            <td>{{aos.anioIngreso}}</td>
-            <td>{{aos.usuarios.estatus}}</td>
+            <td>{{cor.usuarios.idUsuario}}</td>
+            <td>{{cor.idCoordinador}}</td>
+            <td>{{cor.usuarios.nombre}}</td>
+            <td>{{cor.carreras.nombre}}</td>
+            <td>{{cor.fechaInicio}}</td>
+            <td>{{cor.fechaFin}}</td>
+            <td>{{cor.usuarios.estatus}}</td>
             <td>
-                <a href="/Alumnos/ver/{{aos.noControl}}" class="btn btn-info"> Más información</a>
+                <a href="/Coordinador/ver/{{cor.idCoordinador}}" class="btn btn-info"> Más información</a>
             </td>
             <td>
 
