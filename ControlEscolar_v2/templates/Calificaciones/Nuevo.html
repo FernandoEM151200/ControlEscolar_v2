@@ -1,0 +1,99 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Calificaciones de la materia: {{materiasDocentes.materiasCarreras.materias.nombre}}</h2>
+        <h7>Impartida por: {{materiasDocentes.docentes.usuarios.nombre}}</h7>
+        <br>
+        <h8>{{materiasDocentes.grupo.periodos.nombre}}</h8>
+    </center>
+    <br>
+
+
+    {%if current_user.is_docente() and materiasDocentes.grupo.periodos.estatus==True%}
+    <div class="well">
+        <form action="/Calificaciones/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="col-md-1 mb-3">
+                <label for="Materia">Materia:</label>
+                <input type="number" name="materia" required class="form-control" value="{{materiasDocentes.idMatDoc}}"
+                    readonly>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="Alumnos">Alumno:</label>
+                <select class="custom-select" name="alumno" required>
+                    <option selected disabled value="">Selecciona...</option>
+
+                    {% for ag in alumnosGrupos %}
+                    {%if ag.alumnos.usuarios.estatus==True and materiasDocentes.grupo.idGrupo==ag.idGrupo%}
+                    <option value="{{ag.alumnos.noControl}}"> {{ag.alumnos.usuarios.nombre}}</option>
+                    {%endif%}
+                    {%endfor%}
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="Parcial">Parcial</label>
+                <select class="custom-select" name="parcial" required>
+                    <option selected disabled value="">Selecciona...</option>
+                    <option value="1">1° |Primero</option>
+                    <option value="2">2° |Segundo</option>
+                    <option value="3">3° |Tercero</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="Parcial">Nota:</label>
+                <input type="number" name="Nota" required placeholder="0-100 S/Decimale" class="form-control" min="0" ,
+                    max="100">
+            </div>
+
+            <button type="submit" href="/Grupos" style="margin:20px" class="btn btn-success">Registrar</button>
+            <a href="/CalificacionesGpo" class="btn btn-secondary" style="margin:20px">Regresar</a>
+        </form>
+
+    </div>
+    {%endif%}
+
+    <br>
+    <br>
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idCalificacion</th>
+                <th>NoControl</th>
+                <th>Alumno</th>
+                <th>Parcial</th>
+                <th>Nota</th>
+                <th></th>
+
+            </tr>
+        </thead>
+
+
+        {% for ca in calificaciones %}
+        {% if materiasDocentes.idMatDoc==ca.idMatDoc %}
+        <tr>
+            <td>{{ca.idCalificacion}}</td>
+            <td>{{ca.noControl}}</td>
+            <td>{{ca.alumnos.usuarios.nombre}}</td>
+            <td>{{ca.parcial}}</td>
+            <td>{{ca.nota}}</td>
+            <td>
+                {%if current_user.is_admin() %}
+                <a href="/Calificaciones/ver/{{ca.idCalificacion}}" class="btn btn-info"> Modificar</a>
+                {%endif%}
+
+
+                {%if current_user.is_docente() and materiasDocentes.grupo.periodos.estatus==True%}
+                <a href="/Calificaciones/ver/{{ca.idCalificacion}}" class="btn btn-info"> Modificar</a>
+                {%endif%}
+
+            </td>
+
+        </tr>
+        {%endif%}
+        {% endfor %}
+    </table>
+</div>
+{% endblock%}

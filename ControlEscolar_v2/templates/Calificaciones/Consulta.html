@@ -1,0 +1,147 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Consulta Cursos</h2>
+    </center>
+    <br>
+    {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+
+
+{%if current_user.is_docente()%}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Docente</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Grupo</th>
+
+                <th>Periodo</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        {%for d in docentes%}
+            {%if current_user.idUsuario==d.idUsuario%}
+        {% for md in materiasDocentes %}
+        {%if d.noDocente==md.noDocente%}
+
+        <tr>
+            <td>{{md.idMatDoc}}</td>
+            <td>{{md.materiasCarreras.materias.nombre}}</td>
+            <td>{{md.docentes.usuarios.nombre}}</td>
+            <td>{{md.grupo.carreras.siglas}}</td>
+            <td>{{md.grupo.semestre}}</td>
+            <td>{{md.grupo.grupo}}</td>
+            <td>{{md.grupo.periodos.nombre}}</td>
+            <td>
+                <a href="/NuevoCalificaciones/ver/{{md.idMatDoc}}" class="btn btn-primary"> Calificaciones</a>
+            </td>
+           <td>
+
+            </td>
+        </tr>
+
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+{% endif%}
+
+{%if current_user.is_admin()%}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Docente</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Grupo</th>
+
+                <th>Periodo</th>
+                <th></th>
+            </tr>
+        </thead>
+
+
+        {% for md in materiasDocentes %}
+        <tr>
+            <td>{{md.idMatDoc}}</td>
+            <td>{{md.materiasCarreras.materias.nombre}}</td>
+            <td>{{md.docentes.usuarios.nombre}}</td>
+            <td>{{md.grupo.carreras.siglas}}</td>
+            <td>{{md.grupo.semestre}}</td>
+            <td>{{md.grupo.grupo}}</td>
+            <td>{{md.grupo.periodos.nombre}}</td>
+            <td>
+                <a href="/NuevoCalificaciones/ver/{{md.idMatDoc}}" class="btn btn-primary"> Calificaciones</a>
+            </td>
+           <td>
+
+            </td>
+        </tr>
+
+        {%endfor%}
+    </table>
+</div>
+{% endif%}
+
+
+{%if current_user.is_coordinador()%}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Docente</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Grupo</th>
+
+                <th>Periodo</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        {%for c in coordinador%}
+            {%if current_user.idUsuario==c.idUsuario%}
+
+        {% for md in materiasDocentes %}
+        {%if c.idCarrera==md.materiasCarreras.idCarrera%}
+
+        <tr>
+            <td>{{md.idMatDoc}}</td>
+            <td>{{md.materiasCarreras.materias.nombre}}</td>
+            <td>{{md.docentes.usuarios.nombre}}</td>
+            <td>{{md.grupo.carreras.siglas}}</td>
+            <td>{{md.grupo.semestre}}</td>
+            <td>{{md.grupo.grupo}}</td>
+            <td>{{md.grupo.periodos.nombre}}</td>
+            <td>
+                <a href="/NuevoCalificaciones/ver/{{md.idMatDoc}}" class="btn btn-primary"> Calificaciones</a>
+            </td>
+
+        </tr>
+
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+{% endif%}
+
+{% endblock%}

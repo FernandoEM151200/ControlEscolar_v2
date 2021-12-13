@@ -1,0 +1,69 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Eliminar alumno del grupo {{alumnosGrupo.grupo.descripcion}} </h2>
+    </center>
+    <br>
+<div class="well">
+    <form action="/AlumnosGrupos/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <div class="col-md-1 mb-3">
+                    <label for="idGrupo">idAlumGpo:</label>
+                    <input type="number" name="aogpo" required placeholder="id" class="form-control"
+                    value="{{alumnosGrupo.idAlumGpo}}" readonly>
+                </div>
+     <div class="col-md-1 mb-3">
+                    <label for="idGrupo">idGrupo:</label>
+                    <input type="number" name="grupo" required placeholder="id" class="form-control"
+                    value="{{alumnosGrupo.idGrupo}}" readonly>
+                </div>
+
+    <div class="col-md-3 mb-3">
+        <label for="Alumnos">Alumno:</label>
+        <input type="number" name="ao" required placeholder="id" class="form-control"
+                    value="{{alumnosGrupo.noControl}}" readonly>
+        <label for="Alumnos">{{alumnosGrupo.alumnos.usuarios.nombre}}</label>
+
+
+    </div>
+
+   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button>
+    <a href="/listaDeAlumnos/ver/{{alumnosGrupo.idGrupo}}" class="btn btn-secondary" style="margin:20px">Regresar</a>
+    </form>
+</div>
+
+     <!-- Modal Eliminar-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Eliminación de Cursos</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+         ¿Estas seguro de eliminar el curso {{alumnosGrupo.alumnos.usuarios.nombre}} del grupo {{alumnosGrupo.grupo.descripcion}}?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+           <a href="/AlumnosGrupo/elminar/{{alumnosGrupo.idAlumGpo}}" class="btn btn-info">Aceptar</a>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+{% endblock%}

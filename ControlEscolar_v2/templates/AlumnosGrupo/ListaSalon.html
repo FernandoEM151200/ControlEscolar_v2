@@ -1,0 +1,99 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+    <h2>Lista del grupo {{grupos.descripcion}}</h2>
+    </center>
+    <br>
+ {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+
+
+<br>
+    {%if (current_user.is_admin() or current_user.is_coordinador()) and grupos.periodos.estatus==True %}
+<div class="well">
+    <form action="/AlumnosGrupos/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+     <div class="col-md-1 mb-3">
+                    <label for="idGrupo">idGrupo:</label>
+                    <input type="number" name="grupo" required placeholder="id" class="form-control"
+                    value="{{grupos.idGrupo}}" readonly>
+                </div>
+
+    <div class="col-md-4 mb-3">
+        <label for="Alumnos">Alumno:</label>
+        <select class="custom-select" name="alumno" required>
+            <option selected disabled value="">Selecciona...</option>
+
+
+
+
+            {% for a in alumnos %}
+            {%if a.usuarios.estatus==True and a.idCarrera==grupos.idCarrera%}
+
+            <option value="{{a.noControl}}">{{a.carreras.siglas}}__{{a.usuarios.nombre}} </option>
+            {%endif%}
+            {%endfor%}
+        </select>
+
+
+    </div>
+
+    <button type="submit" href="/Grupos" style="margin:20px" class="btn btn-success">Registrar</button>
+    <a href="/Grupos" class="btn btn-secondary" style="margin:20px">Regresar</a>
+    </form>
+
+</div>
+    {%endif%}
+   {%if current_user.is_docente() %}
+    <a href="/Grupos" class="btn btn-secondary" style="margin:20px">Regresar</a>
+    {%endif%}
+<br>
+    <br>
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>NoControl</th>
+                <th>Alumno</th>
+                <th>Carrera</th>
+                 <th>Semestre</th>
+                <th>Grupo</th>
+                <th>Periodo</th>
+                <th></th>
+
+            </tr>
+        </thead>
+
+
+        {% for ag in alumnosGrupo %}
+            {%if grupos.idGrupo==ag.idGrupo %}
+
+            <tr>
+             <td>{{ag.noControl}}</td>
+             <td>{{ag.alumnos.usuarios.nombre}}</td>
+             <td>{{ag.grupo.carreras.nombre}}</td>
+                <td>{{ag.grupo.semestre}}</td>
+             <td>{{ag.grupo.grupo}}</td>
+             <td>{{ag.grupo.periodos.nombre}}</td>
+             <td>
+                 {%if (current_user.is_admin() or current_user.is_coordinador()) and grupos.periodos.estatus==True %}
+                <a href="/AlumnoGpo/ver/{{ag.idAlumGpo}}" class="btn btn-info"> Más información</a>
+                {%endif%}
+             <td>
+
+             </td>
+            </tr>
+        {%endif%}
+        {% endfor %}
+    </table>
+</div>
+
+
+
+
+{% endblock%}

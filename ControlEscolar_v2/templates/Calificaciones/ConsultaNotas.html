@@ -1,0 +1,51 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+
+    {%if current_user.is_alumno()%}
+
+     {%for a in alumnos%}
+        {%if current_user.idUsuario==a.idUsuario%}
+
+    <center>
+    <h2>Boleta de calificaciones</h2>
+        <h8>Alumno: {{current_user.nombre}}</h8>
+        <br>Carrera: {{a.carreras.nombre}}
+    </center>
+    <br>
+
+
+
+<br>
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idCalificación</th>
+                <th>Materia</th>
+                <th>Parcial</th>
+                <th>Nota</th>
+
+            </tr>
+        </thead>
+         {% for c in calificaciones%}
+            {%if a.noControl==c.noControl%}
+            <tr>
+             <td>{{c.idCalificacion}}</td>
+             <td>{{c.idMatDoc}}</td>
+             <td>{{c.parcial}}</td>
+             <td>{{c.nota}}</td>
+
+             <td>
+
+             </td>
+            </tr>
+        {%endif%}
+    {%endfor%}
+    {%endif%}
+    {%endfor%}
+    </table>
+
+    {%endif%}
+</div>
+{% endblock%}

@@ -1,0 +1,50 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+    <h2>Modificar nota del alumno: {{calificaciones.alumnos.usuarios.nombre}}</h2>
+    <h8>Del periodo {{calificaciones.parcial}}</h8>
+    </center>
+
+    <br>
+    <br>
+    <div class="well">
+        <form action="/Calificaciones/guardar" method="post" enctype="multipart/form-data" class="form-horizontal">
+            <div class="col-md-2 mb-3">
+                <label for="Materia">idCalificación:</label>
+                <input type="number" name="id" required class="form-control" value="{{calificaciones.idCalificacion}}"
+                    readonly>
+            </div>
+
+            <div class="col-md-2 mb-3">
+                <label for="Alumnos">Alumno:</label>
+                  <input type="number" name="alumno" required class="form-control" value="{{calificaciones.noControl}}"
+                    readonly>
+            </div>
+   <div class="col-md-2 mb-3">
+                <label for="Alumnos">Materia:</label>
+                  <input type="number" name="materia" required class="form-control" value="{{calificaciones.idMatDoc}}"
+                    readonly>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="Parcial">Parcial</label>
+                <input type="number" name="parcial" required class="form-control" value="{{calificaciones.parcial}}"
+                    readonly>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="NOTA">Nota:</label>
+                <input type="number" name="nota" required placeholder="0-100 S/Decimale" class="form-control" min="0" ,
+                    max="100" value="{{calificaciones.nota}}">
+            </div>
+
+            <button type="submit" href="/Grupos" style="margin:20px" class="btn btn-success">Guardar</button>
+            <a href="/NuevoCalificaciones/ver/{{calificaciones.idMatDoc}}" class="btn btn-secondary" style="margin:20px">Regresar</a>
+        </form>
+
+    </div>
+
+
+
+</div>
+{% endblock%}
