@@ -19,7 +19,7 @@ login_manager.login_message = u"¡Debes de iniciar sesión!"
 def load_user(id):
     return Usuarios.query.get(int(id))
 
-########################################################################################################################
+
 #Sección LOGIN
 
 @app.route('/')
