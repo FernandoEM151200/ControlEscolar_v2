@@ -1,0 +1,138 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Registrar Curso</h2>
+    </center>
+    <br>
+
+    <div class="well">
+        <form action="/MateriasDocentes/guardar" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+            <!--Fila 1-->
+            <div class="form-row">
+
+                <div class="col-md-1 mb-3">
+                    <label for="id">ID:</label>
+                    <input type="number" name="id" required placeholder="id" class="form-control"
+                    value="{{materiasDocentes.idMatDoc}}" readonly>
+                </div>
+
+
+                <div class="col-md-5 mb-3">
+                    <label for="Materia">Materia:</label>
+                    <select class="custom-select" name="materia" required>
+                        {%if current_user.is_coordinador() %}
+                        <option selected value="{{materiasDocentes.idMatCar}}">{{materiasDocentes.materiasCarreras.carreras.siglas}}-{{materiasDocentes.materiasCarreras.semestre}}__
+                            {{materiasDocentes.materiasCarreras.materias.nombre}}</option>
+                        {%for cor in coordinador%}
+                        {%if current_user.idUsuario==cor.idUsuario%}
+
+                        {% for mc in materiasCarreras %}
+                        {%if cor.idCarrera==mc.idCarrera%}
+                        <option value="{{mc.idMatCar}}">{{mc.carreras.siglas}}-{{mc.semestre}}__{{mc.materias.nombre}}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {%if current_user.is_admin() %}
+                       <option selected value="{{materiasDocentes.idMatCar}}">{{materiasDocentes.materiasCarreras.carreras.siglas}}-{{materiasDocentes.materiasCarreras.semestre}}__
+                            {{materiasDocentes.materiasCarreras.materias.nombre}}</option>
+                        {% for mc in materiasCarreras %}
+                        <option value="{{mc.idMatCar}}">{{mc.carreras.siglas}}-{{mc.semestre}}__{{mc.materias.nombre}}
+                        </option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+
+
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="Docente">Docente:</label>
+                    <select class="custom-select" name="docente" required>
+                        <option selected value="{{materiasDocentes.noDocente}}">{{materiasDocentes.docentes.carreras.siglas}}__{{materiasDocentes.docentes.usuarios.nombre}}</option>
+                        {% for d in docentes %}
+                        <option value="{{d.noDocente}}">{{d.carreras.siglas}}__{{d.usuarios.nombre}} </option>
+                        {%endfor%}
+                    </select>
+                </div>
+
+
+
+
+                <div class="col-md-3 mb-3">
+                    <label for="Grupo">Grupo:</label>
+                    <select class="custom-select" name="grupo" required>
+                        {%if current_user.is_coordinador() %}
+                        <option value="{{materiasDocentes.idGrupo}}">{{materiasDocentes.grupo.descripcion}}</option>
+                        {%for cor in coordinador%}
+                        {%if current_user.idUsuario==cor.idUsuario%}
+
+                        {% for g in grupo %}
+                        {%if cor.idCarrera==g.idCarrera and g.periodos.estatus==True%}
+                        <option value="{{g.idGrupo}}">{{g.descripcion}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {%if current_user.is_admin() %}
+                        <option value="{{materiasDocentes.idGrupo}}">{{materiasDocentes.grupo.descripcion}}</option>
+                        {% for g in grupo %}
+                        {%if g.periodos.estatus==True%}
+                        <option value="{{g.idGrupo}}">{{g.descripcion}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            <br>
+            <center>
+                <button type="submit" style="margin:20px" class="btn btn-success">Guardar</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">Eliminar</button>
+                <a href="/MateriasDocentes" class="btn btn-secondary" style="margin:20px">Regresar</a>
+            </center>
+
+
+        </form>
+        <br>
+    </div>
+
+        <!-- Modal Eliminar-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Eliminación de Cursos</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+         ¿Estas seguro de eliminar el curso {{materiasDocentes.materiasCarreras.materias.nombre}} del grupo {{materiasDocentes.grupo.descripcion}}?
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+           <a href="/MateriasDocentes/eliminar/{{materiasDocentes.idMatDoc}}" class="btn btn-info">Aceptar</a>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>
+{% endblock%}

@@ -1,0 +1,93 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Registrar Horario</h2>
+    </center>
+    <br>
+
+    <div class="well">
+        <form action="/Horarios/guardar" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+            <!--Fila 1-->
+            <div class="form-row">
+
+                <div class="col-md-1 mb-3">
+                    <label for="idHorario">idHorario</label>
+                    <input type="number" name="id" requiered placeholder="idHorario"  readonly class="form-control" value="{{horario.idHorario}}">
+                </div>
+
+
+
+                <div class="col-md-5 mb-3">
+                    <label for="Materia">Materia</label>
+                    <select class="custom-select" name="materia" required>
+                        <option selected value="{{horario.idMatDoc}}">{{horario.materiasDocentes.grupo.descripcion}}__
+                            {{horario.materiasDocentes.materiasCarreras.materias.nombre}}</option>
+                        {% for md in materiasDocentes %}
+                            {%if horario.idMatDoc!=md.idMatDoc%}
+                        <option value="{{md.idMatDoc}}">
+                         {{md.grupo.descripcion}}__{{md.materiasCarreras.materias.nombre}}
+                        </option>
+                        {%endif%}
+                        {% endfor%}
+                    </select>
+                </div>
+
+                <div class="col-md-2 mb-3">
+                    <label for="día">Día:</label>
+                    <select class="custom-select" name="dia" required>
+                        <option selected  value="{{horario.dia}}">{{horario.dia}}</option>
+                        {%if horario.dia!="Lunes" %}
+                        <option value="Lunes">Lunes</option>
+                        {%endif%}
+                        {%if horario.dia!="Martes" %}
+                        <option value="Martes">Martes</option>
+                        {%endif%}
+                        {%if horario.dia!="Miércoles" %}
+                        <option value="Miércoles">Miércoles</option>
+                        {%endif%}
+                        {%if horario.dia!="Jueves" %}
+                        <option value="Jueves">Jueves</option>
+                        {%endif%}
+                        {%if horario.dia!="Viernes" %}
+                        <option value="Viernes">Viernes</option>
+                        {%endif%}
+
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Hora Inicio">Hora Incio</label>
+                    <input type="time" name="HoraInicio" requiered placeholder="Hora Inicio" class="form-control" value="{{horario.horaInicio}}">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Hora Fin">Hora Fin</label>
+                    <input type="time" name="HoraFin" required placeholder="Hora Fin" class="form-control" value="{{horario.horaFin}}">
+                </div>
+            </div>
+
+            <!--Fila 2-->
+
+
+
+            <br>
+            <center>
+                <button type="submit" style="margin:20px" class="btn btn-success">Guardar</button>
+                <a href="/Horarios" class="btn btn-secondary" style="margin:20px">Regresar</a>
+            </center>
+
+
+        </form>
+        <br>
+    </div>
+    {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+</div>
+
+{% endblock%}

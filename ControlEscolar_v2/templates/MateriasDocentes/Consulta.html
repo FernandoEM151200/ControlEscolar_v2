@@ -1,0 +1,105 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Consulta Cursos</h2>
+    </center>
+    <br>
+    {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+
+    <right>
+        <a href="/NuevoMateriasDocentes" style="margin:20px" class="btn btn-success">Registrar</a>
+    </right>
+    <br>
+
+    {%if current_user.is_coordinador() %}
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Docente</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Grupo</th>
+
+                <th>Periodo</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+
+        {%for cor in coordinador%}
+        {%if current_user.idUsuario==cor.idUsuario%}
+        {% for md in materiasDocentes %}
+        {%if cor.idCarrera==md.materiasCarreras.idCarrera%}
+        <tr>
+            <td>{{md.idMatDoc}}</td>
+            <td>{{md.materiasCarreras.materias.nombre}}</td>
+            <td>{{md.docentes.usuarios.nombre}}</td>
+            <td>{{md.grupo.carreras.siglas}}</td>
+            <td>{{md.grupo.semestre}}</td>
+            <td>{{md.grupo.grupo}}</td>
+            <td>{{md.grupo.periodos.nombre}}</td>
+            <td>
+                <a href="/MateriasDocentes/ver/{{md.idMatDoc}}" class="btn btn-info"> Más información</a>
+            </td>
+            </td>
+        </tr>
+        {%endif%}
+        {%endfor%}
+        {%endif%}
+        {%endfor%}
+    </table>
+    {% endif %}
+
+        {%if current_user.is_admin() %}
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Materia</th>
+                <th>Docente</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Grupo</th>
+
+                <th>Periodo</th>
+                <th>Editar</th>
+            </tr>
+        </thead>
+
+
+        {% for md in materiasDocentes %}
+
+        <tr>
+            <td>{{md.idMatDoc}}</td>
+            <td>{{md.materiasCarreras.materias.nombre}}</td>
+            <td>{{md.docentes.usuarios.nombre}}</td>
+            <td>{{md.grupo.carreras.siglas}}</td>
+            <td>{{md.grupo.semestre}}</td>
+            <td>{{md.grupo.grupo}}</td>
+            <td>{{md.grupo.periodos.nombre}}</td>
+            <td>
+                <a href="/MateriasDocentes/ver/{{md.idMatDoc}}" class="btn btn-info"> Más información</a>
+            </td>
+            </td>
+        </tr>
+
+        {%endfor%}
+    </table>
+    {% endif %}
+
+</div>
+
+
+
+{% endblock%}

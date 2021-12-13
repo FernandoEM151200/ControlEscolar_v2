@@ -1,0 +1,149 @@
+{% extends 'comunes/Base.html' %}
+{% block scripts %}
+{{super()}}
+<script src="{{url_for('static',filename='js/filtrosCarreras.js')}}"></script>
+{% endblock %}
+{% block content %}
+<div class="container">
+
+    {%if current_user.is_alumno()%}
+    {%for a in alumnos%}
+    {%if current_user.idUsuario==a.idUsuario%}
+    <center>
+        <h2>Plan de estudios de {{a.carreras.nombre}}</h2>
+    </center>
+    <br>
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>IdMateria</th>
+                <th>Nombre</th>
+                <th>Semestre</th>
+                <th>Horas Teoría</th>
+                <th>Horas Práctica</th>
+                <th>Creditos</th>
+
+            </tr>
+        </thead>
+
+
+        {% for mc in materiasCarreras%}
+        {%if a.idCarrera==mc.idCarrera%}
+        <tr>
+            <td>{{mc.idMatCar}}</td>
+            <td>{{mc.materias.nombre}}</td>
+            <td>{{mc.semestre}}</td>
+            <td>{{mc.materias.h_teoria}}</td>
+            <td>{{mc.materias.h_practica}}</td>
+            <td>{{mc.materias.creditos}}</td>
+
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+    {%if current_user.is_coordinador()%}
+    {%for cor in coordinador%}
+    {%if current_user.idUsuario==cor.idUsuario%}
+    <center>
+        <h2>Plan de estudios de {{cor.carreras.nombre}}</h2>
+    </center>
+    <br>
+
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>IdMateria</th>
+                <th>Nombre</th>
+                 <th>Semestre</th>
+                <th>Horas Teoría</th>
+                <th>Horas Práctica</th>
+                <th>Creditos</th>
+
+            </tr>
+        </thead>
+
+
+        {% for mc in materiasCarreras%}
+        {%if cor.idCarrera==mc.idCarrera%}
+        <tr>
+            <td>{{mc.idMatCar}}</td>
+            <td>{{mc.materias.nombre}}</td>
+            <td>{{mc.semestre}}</td>
+            <td>{{mc.materias.h_teoria}}</td>
+            <td>{{mc.materias.h_practica}}</td>
+            <td>{{mc.materias.creditos}}</td>
+
+        </tr>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+    {%if current_user.is_admin() or current_user.is_docente() %}
+
+    <center>
+        <h2>Plan de estudios </h2>
+    </center>
+    <br>
+
+    <div class="col-md-5 mb-3">
+
+        <label for="idCarrera">Carrera:</label>
+        <select class="custom-select" id="myInput" onchange="myFunction()" name="carrera">
+            <option selected disabled value="">Selecciona...</option>
+            {% for c in carreras %}
+            <option value="{{c.nombre}}">{{c.nombre}}</option>
+            {%endfor%}
+        </select>
+    </div>
+    <br>
+    <table id="myTable" class="table table-light">
+        <thead>
+            <tr>
+                <th>IdMateria</th>
+                <th>Nombre</th>
+                <th>Carrera</th>
+                <th>Semestre</th>
+                <th>Horas Teoría</th>
+                <th>Horas Práctica</th>
+                <th>Creditos</th>
+
+
+            </tr>
+        </thead>
+
+
+        {% for mc in materiasCarreras%}
+
+        <tr>
+            <td>{{mc.idMatCar}}</td>
+            <td>{{mc.materias.nombre}}</td>
+            <td>{{mc.carreras.nombre}}</td>
+            <td>{{mc.semestre}}</td>
+            <td>{{mc.materias.h_teoria}}</td>
+            <td>{{mc.materias.h_practica}}</td>
+            <td>{{mc.materias.creditos}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% endblock%}

@@ -1,0 +1,105 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+<div class="container">
+    <center>
+        <h2>Registrar Curso</h2>
+    </center>
+    <br>
+
+    <div class="well">
+        <form action="/MateriasDocentes/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+            <!--Fila 1-->
+            <div class="form-row">
+                <div class="col-md-5 mb-3">
+                    <label for="Materia">Materia:</label>
+
+                    <select class="custom-select" name="materia" required>
+                        {%if current_user.is_coordinador() %}
+                        <option selected disabled value="">Selecciona...</option>
+                        {%for cor in coordinador%}
+                        {%if current_user.idUsuario==cor.idUsuario%}
+
+                        {% for mc in materiasCarreras %}
+                        {%if cor.idCarrera==mc.idCarrera%}
+                        <option value="{{mc.idMatCar}}">{{mc.carreras.siglas}}-{{mc.semestre}}__{{mc.materias.nombre}}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {%if current_user.is_admin() %}
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for mc in materiasCarreras %}
+                        <option value="{{mc.idMatCar}}">{{mc.carreras.siglas}}-{{mc.semestre}}__{{mc.materias.nombre}}
+                        </option>
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="Docente">Docente:</label>
+                    <select class="custom-select" name="docente" required>
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for d in docentes %}
+                        <option value="{{d.noDocente}}">{{d.carreras.siglas}}__{{d.usuarios.nombre}} </option>
+                        {%endfor%}
+                    </select>
+                </div>
+
+
+
+
+                <div class="col-md-3 mb-3">
+                    <label for="Grupo">Grupo:</label>
+                    <select class="custom-select" name="grupo" required>
+                        {%if current_user.is_coordinador() %}
+                        <option selected disabled value="">Selecciona...</option>
+                        {%for cor in coordinador%}
+                        {%if current_user.idUsuario==cor.idUsuario%}
+
+                        {% for g in grupo %}
+                        {%if cor.idCarrera==g.idCarrera and g.periodos.estatus==True%}
+                        <option value="{{g.idGrupo}}">{{g.descripcion}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {%if current_user.is_admin() %}
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for g in grupo %}
+                        {%if g.periodos.estatus==True%}
+                        <option value="{{g.idGrupo}}">{{g.descripcion}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            <br>
+            <center>
+                <button type="submit" style="margin:20px" class="btn btn-success">Guardar</button>
+                <a href="/MateriasDocentes" class="btn btn-secondary" style="margin:20px">Regresar</a>
+            </center>
+
+
+        </form>
+        <br>
+    </div>
+    {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+</div>
+{% endblock%}

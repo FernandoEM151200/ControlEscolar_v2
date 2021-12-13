@@ -1,0 +1,194 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+
+<div class="container">
+    <center>
+    <h2>Consulta Horarios</h2>
+    </center>
+    <br>
+ {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+
+     {%if current_user.is_admin() or current_user.is_coordinador() %}
+ <right>
+        <a href="/Horarios/nuevo" style="margin:20px" class="btn btn-success">Registrar</a>
+    </right>
+    {%endif%}
+<br>
+
+    {%if current_user.is_admin()%}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idHorario</th>
+                <th>Materia</th>
+                <th>Grupo</th>
+                <th>Docente</th>
+                <th>Dia</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th> </th>
+            </tr>
+        </thead>
+        {% for h in horario %}
+            <tr>
+             <td>{{h.idHorario}}</td>
+             <td>{{h.materiasDocentes.materiasCarreras.materias.nombre}}</td>
+                <td>{{h.materiasDocentes.grupo.descripcion}}</td>
+             <td>{{h.materiasDocentes.docentes.usuarios.nombre}}</td>
+             <td>{{h.dia}}</td>
+             <td>{{h.horaInicio}}</td>
+             <td>{{h.horaFin}}</td>
+             <td>
+                 <a href="/Horarios/ver/{{h.idHorario}}" class="btn btn-info"> Más información</a>
+             </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+        {%if current_user.is_docente() %}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idHorario</th>
+                <th>Materia</th>
+                <th>Grupo</th>
+                <th>Docente</th>
+                <th>Dia</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+
+            </tr>
+        </thead>
+        {%for d in docentes%}
+        {%if current_user.idUsuario==d.idUsuario%}
+
+        {%for md in materiasDocentes%}
+            {%if d.noDocente==md.noDocente%}
+
+        {% for h in horario %}
+            {%if md.idMatDoc==h.idMatDoc%}
+            <tr>
+             <td>{{h.idHorario}}</td>
+             <td>{{h.materiasDocentes.materiasCarreras.materias.nombre}}</td>
+                <td>{{h.materiasDocentes.grupo.descripcion}}</td>
+             <td>{{h.materiasDocentes.docentes.usuarios.nombre}}</td>
+             <td>{{h.dia}}</td>
+             <td>{{h.horaInicio}}</td>
+             <td>{{h.horaFin}}</td>
+
+
+            </tr>
+         {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
+      {%if current_user.is_coordinador() %}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idHorario</th>
+                <th>Materia</th>
+                <th>Grupo</th>
+                <th>Docente</th>
+                <th>Dia</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+                <th> </th>
+
+            </tr>
+        </thead>
+        {%for co in coordinador%}
+        {%if current_user.idUsuario==co.idUsuario%}
+
+        {% for gpo in grupos %}
+        {%if co.idCarrera==gpo.idCarrera%}
+
+        {% for h in horario %}
+            {%if gpo.idGrupo==h.materiasDocentes.idGrupo%}
+            <tr>
+             <td>{{h.idHorario}}</td>
+             <td>{{h.materiasDocentes.materiasCarreras.materias.nombre}}</td>
+                <td>{{h.materiasDocentes.grupo.descripcion}}</td>
+             <td>{{h.materiasDocentes.docentes.usuarios.nombre}}</td>
+             <td>{{h.dia}}</td>
+             <td>{{h.horaInicio}}</td>
+             <td>{{h.horaFin}}</td>
+            <td>
+                 <a href="/Horarios/ver/{{h.idHorario}}" class="btn btn-info"> Más información</a>
+            </td>
+
+            </tr>
+         {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    {%if current_user.is_alumno() %}
+    <table class="table table-light">
+        <thead>
+            <tr>
+                <th>idHorario</th>
+                <th>Materia</th>
+                <th>Grupo</th>
+                <th>Docente</th>
+                <th>Dia</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+
+            </tr>
+        </thead>
+        {%for a in alumnos%}
+        {%if current_user.idUsuario==a.idUsuario%}
+
+        {%for ag in alumnosGrupo%}
+            {%if a.noControl==ag.noControl%}
+
+        {% for h in horario %}
+            {%if ag.idGrupo==h.materiasDocentes.idGrupo  and h.materiasDocentes.grupo.periodos.estatus==True%}
+            <tr>
+             <td>{{h.idHorario}}</td>
+             <td>{{h.materiasDocentes.materiasCarreras.materias.nombre}}</td>
+                <td>{{h.materiasDocentes.grupo.descripcion}}</td>
+             <td>{{h.materiasDocentes.docentes.usuarios.nombre}}</td>
+             <td>{{h.dia}}</td>
+             <td>{{h.horaInicio}}</td>
+             <td>{{h.horaFin}}</td>
+
+
+            </tr>
+         {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+
+
+
+
+</div>
+
+
+
+
+{% endblock%}

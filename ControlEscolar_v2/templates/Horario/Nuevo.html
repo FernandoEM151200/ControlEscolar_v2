@@ -1,0 +1,104 @@
+{% extends 'comunes/Base.html' %}
+{% block content %}
+
+<br>
+
+
+<div class="container">
+    <center>
+        <h2>Registrar Horario</h2>
+    </center>
+    <br>
+
+    <div class="well">
+        <form action="/Horarios/agregar" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+            <!--Fila 1-->
+            <div class="form-row">
+                <div class="col-md-5 mb-3">
+                    <label for="Materia">Materia</label>
+                    <select class="custom-select" name="materia" required>
+
+
+
+
+                        {%if current_user.is_admin()%}
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for md in materiasDocentes %}
+                        <option value="{{md.idMatDoc}}">
+                            {{md.grupo.descripcion}}__{{md.materiasCarreras.materias.nombre}}
+                        </option>
+                        {% endfor%}
+                        {% endif%}
+
+
+                        {%if current_user.is_coordinador()%}
+
+                        {%for co in coordinador%}
+                        {%if current_user.idUsuario==co.idUsuario%}
+                        <option selected disabled value="">Selecciona...</option>
+                        {% for gpo in grupos %}
+                        {%if co.idCarrera==gpo.idCarrera%}
+
+
+                        {% for md in materiasDocentes %}
+                        {%if gpo.idGrupo==md.idGrupo%}
+                        <option value="{{md.idMatDoc}}">
+                            {{md.grupo.descripcion}}__{{md.materiasCarreras.materias.nombre}}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif%}
+                    </select>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="día">Día:</label>
+                    <select class="custom-select" name="dia" required>
+                        <option selected disabled value="">Selecciona...</option>
+                        <option value="Lunes">Lunes</option>
+                        <option value="Lunes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Hora Inicio">Hora Incio</label>
+                    <input type="time" name="HoraInicio" requiered placeholder="Hora Inicio" class="form-control">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label for="Hora Fin">Hora Fin</label>
+                    <input type="time" name="HoraFin" required placeholder="Hora Fin" class="form-control">
+                </div>
+            </div>
+
+            <!--Fila 2-->
+
+
+
+            <br>
+            <center>
+                <button type="submit" style="margin:20px" class="btn btn-success">Guardar</button>
+                <a href="/Horarios" class="btn btn-secondary" style="margin:20px">Regresar</a>
+            </center>
+
+
+        </form>
+        <br>
+    </div>
+    {% if get_flashed_messages() %}
+    {% for m in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{m}}</strong> .
+    </div>
+    {% endfor %}
+    {% endif%}
+</div>
+
+{% endblock%}
